@@ -1,0 +1,161 @@
+<!doctype html>
+<html class="no-js" lang="en">
+    <!-- header -->
+    <% include partials/header.ejs %>
+    <!-- Left Panel -->
+    <% include partials/navbar.ejs %>
+    <!-- Left Panel Finish here-->
+    
+    <!-- Right Panel -->
+    <div id="right-panel" class="right-panel">
+        <div class="breadcrumbs">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                    <table class="table table-bordered">
+                            <thead class="thead-dark">
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">First</th>
+                                <th scope="col">Last</th>
+                                <th scope="col">Handle</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                                <td>@mdo</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                                <td>@fat</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">3</th>
+                                <td>Larry</td>
+                                <td>the Bird</td>
+                                <td>@twitter</td>
+                              </tr>
+                            </tbody>
+                          </table>
+            </div>
+        </div>
+            <div class="col-xl-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Temp Guide</h4>
+                            <div class="d-flex align-items-center flex-row m-t-30">
+                                <div class="display-5 text-info"><i class="wi wi-day-showers"></i> <span>73<sup>°</sup></span></div>
+                                <div class="m-l-10">
+                                    <h3 class="m-b-0">Saturday</h3><small>Ahmedabad, India</small>
+                                </div>
+                            </div>
+                            <table class="table no-border mini-table m-t-20">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-muted">Wind</td>
+                                        <td class="font-medium">ESE 17 mph</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted">Humidity</td>
+                                        <td class="font-medium">83%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted">Pressure</td>
+                                        <td class="font-medium">28.56 in</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-muted">Cloud Cover</td>
+                                        <td class="font-medium">78%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <ul class="row list-style-none text-center m-t-30">
+                                <li class="col-3">
+                                    <h4 class="text-info"><i class="wi wi-day-sunny"></i></h4>
+                                    <span class="d-block text-muted">09:30</span>
+                                    <h3 class="m-t-5">70<sup>°</sup></h3>
+                                </li>
+                                <li class="col-3">
+                                    <h4 class="text-info"><i class="wi wi-day-cloudy"></i></h4>
+                                    <span class="d-block text-muted">11:30</span>
+                                    <h3 class="m-t-5">72<sup>°</sup></h3>
+                                </li>
+                                <li class="col-3">
+                                    <h4 class="text-info"><i class="wi wi-day-hail"></i></h4>
+                                    <span class="d-block text-muted">13:30</span>
+                                    <h3 class="m-t-5">75<sup>°</sup></h3>
+                                </li>
+                                <li class="col-3">
+                                    <h4 class="text-info"><i class="wi wi-day-sprinkle"></i></h4>
+                                    <span class="d-block text-muted">15:30</span>
+                                    <h3 class="m-t-5">76<sup>°</sup></h3>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            <div class="col-xl-3 col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="stat-widget-one">
+                            <div class="stat-icon dib"><i class="ti-money text-success border-success"></i></div>
+                            <div class="stat-content dib">
+                                <div class="stat-text">Total Profit</div>
+                                <div class="stat-digit">1,012</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-xl-3 col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="stat-widget-one">
+                            <div class="stat-icon dib"><i class="ti-user text-primary border-primary"></i></div>
+                            <div class="stat-content dib">
+                                <div class="stat-text">New Customer</div>
+                                <div class="stat-digit">961</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="stat-widget-one">
+                            <div class="stat-icon dib"><i class="ti-layout-grid2 text-warning border-warning"></i></div>
+                            <div class="stat-content dib">
+                                <div class="stat-text">Active Projects</div>
+                                <div class="stat-digit">770</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <footer class="footer text-center">
+                    Copyright by Tenzin
+                </footer>
+            </div>
+        </div> <!-- rigth content -->
+<!-- include footer -->
+<% include partials/footer.ejs %>

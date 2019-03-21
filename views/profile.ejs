@@ -1,0 +1,91 @@
+<!doctype html>
+<html class="no-js" lang="en">
+    <!-- header -->
+    <% include partials/header.ejs %>
+    <!-- Left Panel -->
+    <% include partials/navbar.ejs %>
+    <!-- Left Panel Finish here-->
+
+        <!-- Right Panel -->
+        <div id="right-panel" class="right-panel">
+                <div class="breadcrumbs">
+                    <div class="col-sm-4">
+                        <div class="page-header float-left">
+                            <div class="page-title">
+                                <h1>Profile</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                    </div>
+                </div>
+                <div class="row">
+                        <!-- Column -->
+                        <div class="col-lg-4 col-xlg-3 col-md-5">
+                            <div class="card">
+                                <div class="card-body">
+                                    <center class="m-t-30"> <img src="bower_components/images/avatar/4.jpg" class="rounded-circle" width="150" />
+                                        <h4 class="card-title m-t-10">Tenzin chophel</h4>
+                                        <h6 class="card-subtitle">Student at CST</h6>
+                                    </center>
+                                </div>
+                                <div>
+                                    <hr> </div>
+                                <div class="card-body"> <small class="text-muted">Email address </small>
+                                    <h6>tencho@gmail.com</h6> <small class="text-muted p-t-30 db">Phone</small>
+                                    <h6>+91 654 784 547</h6> <small class="text-muted p-t-30 db">Address</small>
+                                    <h6>Bhutan, Paro, Drukgyel</h6>
+                                    <br/>
+                                    <button class="btn btn-circle btn-secondary"><i class="mdi mdi-facebook"></i></button>
+                                    <button class="btn btn-circle btn-secondary"><i class="mdi mdi-twitter"></i></button>
+                                    <button class="btn btn-circle btn-secondary"><i class="mdi mdi-youtube-play"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Column -->
+                        <!-- Column -->
+                        <div class="col-lg-8 col-xlg-9 col-md-7">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form class="form-horizontal form-material">
+                                        <div class="form-group">
+                                            <label class="col-md-12">Username</label>
+                                            <div class="col-md-12">
+                                                <input type="text" placeholder="tencho" class="form-control form-control-line">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="example-email" class="col-md-12">Email</label>
+                                            <div class="col-md-12">
+                                                <input type="email" placeholder="tencho@admin.com" class="form-control form-control-line" name="example-email" id="example-email">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-12">Password</label>
+                                            <div class="col-md-12">
+                                                <input type="password" value="password" class="form-control form-control-line">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-12">Phone No</label>
+                                            <div class="col-md-12">
+                                                <input type="text" placeholder="123 456 7890" class="form-control form-control-line">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-12">House Number</label>
+                                            <input type="text" placeholder="123 456 7890" class="form-control form-control-line">
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <button class="btn btn-success">Update Profile</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Column -->
+                    </div>
+    <!-- include footer -->
+<% include partials/footer.ejs %>

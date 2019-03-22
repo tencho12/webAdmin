@@ -10,6 +10,9 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const app = express();
 
+//Setting port number
+const port = process.env.PORT || 619;
+
 const mysqlConnection = mysql.createConnection({
     host: 'localhost',
     user:'root',
@@ -25,6 +28,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 //set folder public as static folder for static file
 app.use(express.static(path.join(__dirname + '/public')));
+app.use(function(req, res, next) {
+  res.locals.stuff = {
+      url   : req.originalUrl
+  }
+  next();
+});
 
 //connecting to database
 mysqlConnection.connect((err) =>{
@@ -38,6 +47,6 @@ var lightController = require('./controllers/lightController');
 lightController(app,mysqlConnection);
 
 //server listening
-app.listen(3000, () => {
-  console.log('Server is running at port 3000');
+app.listen(port, () => {
+  console.log('Server is running at port '+port);
 });

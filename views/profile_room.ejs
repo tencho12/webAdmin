@@ -1,0 +1,59 @@
+<!doctype html>
+<html class="no-js" lang="en">
+    <!-- header -->
+    <% include partials/header.ejs %>
+    <!-- Left Panel -->
+    <% include partials/navbar.ejs %>
+    <!-- Left Panel Finish here-->
+    <% stuff = typeof stuff !== 'object' ? {} : stuff %>
+
+         <!-- Right Panel -->
+    <div id="right-panel" class="right-panel">
+            <div class="breadcrumbs">
+                    <div class="col-sm-4">
+                        <div class="page-header float-left">
+                            <div class="page-title">
+                                <h1>Profile</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                    </div>
+                </div>
+            <div class="row">
+                <div class="col-sm-12">
+                        <table class="table table-bordered">
+                                <thead class="thead-dark">
+                                  <tr>
+                                    <th scope="col">Sl No</th>
+                                    <th scope="col">Component Name</th>
+                                    <th scope="col">Used For</th>
+                                    <th scope="col">Output Pin</th>
+                                    <th scope="col" >Action</th>
+                                  </tr>
+                                </thead>
+                                <% var c=0; for(var i=0; i < data.length; i++) { c++; %>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row"><%= c %></th>
+                                        <td>
+                                            <%= data[i].component_name %>
+                                        </td> 
+                                        <td>
+                                            <%= data[i].used_for %>
+                                        </td> 
+                                        <td>
+                                            <%= data[i].output_pin %>
+                                        </td> 
+                                        <td>
+                                            <a href="#" class="btn btn-success">Edit</a>
+                                            <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-userid="<%= data[i].user_id %>">Delete</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <% } %>
+                              </table>
+                </div>
+            </div>
+    <!-- include footer -->
+<% include partials/footer.ejs %>

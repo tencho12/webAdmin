@@ -2,7 +2,8 @@
         <footer class="footer text-center">
             Copyright by Tenzin
             <!-- checking jquery -->
-            <p id="myclick">click to hide</p>
+            <p id="myclick" aria-hidden="true">click to hide</p>
+            <button id="myshow">Click to show</button>
         </footer>
     </div>
 </div> <!-- rigth content -->
@@ -66,6 +67,9 @@
             $("#myclick").click(function(){
             $(this).hide();
             });
+            $("#myshow").click(function(){
+                $('#myclick').('show');
+            })
         </script>
 
 </body>

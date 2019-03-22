@@ -5,7 +5,8 @@
     <!-- Left Panel -->
     <% include partials/navbar.ejs %>
     <!-- Left Panel Finish here-->
-    
+    <% stuff = typeof stuff !== 'object' ? {} : stuff %>
+
     <!-- Right Panel -->
     <div id="right-panel" class="right-panel">
         <div class="breadcrumbs">
@@ -26,23 +27,27 @@
                               <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Username</th>
+                                <th scope="col">Email</th>
                                 <th scope="col">Location</th>
-                                <th scope="col">House Number</th>
+                                <th scope="col">House No</th>
                                 <th scope="col" >Action</th>
                               </tr>
                             </thead>
                             <% var c=0; for(var i=0; i < data.length; i++) { c++; %>
                             <tbody>
-                              <tr>
-                                <th scope="row"><%= c %></th>
-                                <td><%= data[i].user_name %></td>
-                                <td><%= data[i].location %></td>
-                                <td><%= data[i].house_number %></td>   
-                                <td>
-                                    <a href="#" class="btn btn-success">Edit</a>
-                                    <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-userid="<%= data[i].user_id %>">Delete</a>
-                                </td>
-                                 </tr>
+                                <tr>
+                                    <th scope="row"><%= c %></th>
+                                    <td>
+                                        <a href="profile_home?h_id=<%= data[i].house_number %>"><%= data[i].user_name %></a>
+                                    </td>
+                                    <td><%= data[i].email %></td>
+                                    <td><%= data[i].location %></td>
+                                    <td><%= data[i].house_number %></td>   
+                                    <td>
+                                        <a href="#" class="btn btn-success">Edit</a>
+                                        <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-userid="<%= data[i].user_id %>">Delete</a>
+                                    </td>
+                                </tr>
                             </tbody>
                             <% } %>
                           </table>

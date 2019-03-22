@@ -18,8 +18,61 @@
                 </div>
             </div>
             <div class="col-sm-8">
+                <h3>Dash board path here</h3>
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-4">
+                 <!-- Trigger the modal with a button -->
+                <br><button class="btn btn-primary"  data-toggle="modal" data-target="#myModal">Add New Home</button><br><br>
+            </div>
+        </div>
+        <div>
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Add new House..</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/home" method="post">
+                                    <div class="form-group">
+                                        <label for="username">Username</label>
+                                        <input type="text" id="username" name="username" class="form-control" placeholder="username">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="example-email">Email</label>
+                                        <input type="email" id="email" name="email" class="form-control" placeholder="Email">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">Password</label>
+                                        <input type="password" id="password" name="password" class="form-control" placeholder="Password">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="location">Location</label>
+                                        <input type="text" id="location" name="location" class="form-control" placeholder="location">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="house_no">House Number</label>
+                                        <input type="text" id="house_number" name="house_number" class="form-control" placeholder="House Number..">
+                                    </div>  
+                                    <div class="form-group">
+                                        <button class="btn btn-primary" type="submit">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- End of model -->
         <div class="row">
             <div class="col-sm-12">
                     <table class="table table-bordered">
@@ -151,28 +204,5 @@
                     </div>
                 </div>
             </div>
-            <!-- Delete Product Modal-->
- 	  <form id="add-row-form" action="/delete" method="post">
-        <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-           <div class="modal-dialog">
-              <div class="modal-content">
-                  <div class="modal-header">
-                                       <h5 class="modal-title" id="myModalLabel">Delete Product</h5>
-                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  </div>
-                  <div class="modal-body">
-                                               <strong>Are You Sure To Delete This Data?</strong>
-                  </div>
-                  <div class="modal-footer">
-                                           <input type="hidden" name="product_id" class="form-control product_id2" required>
-                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                         <button type="submit" class="btn btn-success">Delete</button>
-                  </div>
-                     </div>
-           </div>
-        </div>
-    </form>
-
-
 <!-- include footer -->
 <% include partials/footer.ejs %>

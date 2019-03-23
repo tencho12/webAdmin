@@ -10,41 +10,75 @@
          <!-- Right Panel -->
     <div id="right-panel" class="right-panel">
             <div class="breadcrumbs">
-                    <div class="col-sm-4">
-                        <div class="page-header float-left">
-                            <div class="page-title">
-                                <h1>Profile</h1>
+                <div class="col-sm-4">
+                    <div class="page-header float-left">
+                        <div class="page-title">
+                            <h1>Profile</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <!-- Trigger the modal with a button -->
+                    <br><button class="btn btn-primary"  data-toggle="modal" data-target="#myModal">Add New Room</button><br><br>
+                </div>
+            </div>
+            <div>
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+                                <h4 class="modal-title" style="text-align: center">Add New Room</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form action="<% stuff.url %>" method="post">
+                                    <div class="form-group">
+                                        <label for="username">Room Name</label>
+                                        <input type="text" id="roomname" name="roomname" class="form-control" placeholder="Eg: Kitchen" required>
+                                    </div>
+                                                                        
+                                    <div class="modal-footer">
+                                        <button class="btn btn-primary" type="submit">Submit</button> 
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-8">
-                    </div>
                 </div>
+            </div>
+            <!-- End of model -->
             <div class="row">
                 <div class="col-sm-12">
-                        <table class="table table-bordered">
-                                <thead class="thead-dark">
-                                  <tr>
-                                    <th scope="col">Sl No</th>
-                                    <th scope="col">Room Name</th>
-                                    <th scope="col" >Action</th>
-                                  </tr>
-                                </thead>
-                                <% var c=0; for(var i=0; i < data.length; i++) { c++; %>
-                                <tbody>
-                                    <tr>
-                                      <th scope="row"><%= c %></th>
-                                      <td>
-                                          <a href="profile_room?room_id=<%= data[i].room_id %>"><%= data[i].room_name %></a>
-                                      </td> 
-                                      <td>
-                                          <a href="#" class="btn btn-success">Edit</a>
-                                          <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-userid="<%= data[i].user_id %>">Delete</a>
-                                      </td>
-                                    </tr>
-                                </tbody>
-                                <% } %>
-                              </table>
+                    <table class="table table-bordered">
+                        <thead class="thead-dark">
+                            <tr>
+                            <th scope="col">Sl No</th>
+                            <th scope="col">Room Name</th>
+                            <th scope="col" >Action</th>
+                            </tr>
+                        </thead>
+                        <% var c=0; for(var i=0; i < data.length; i++) { c++; %>
+                        <tbody>
+                            <tr>
+                                <th scope="row"><%= c %></th>
+                                <td>
+                                    <a href="profile_room?room_id=<%= data[i].room_id %>"><%= data[i].room_name %></a>
+                                </td> 
+                                <td>
+                                    <a href="#" class="btn btn-success">Edit</a>
+                                    <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-userid="<%= data[i].user_id %>">Delete</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <% } %>
+                    </table>
                 </div>
             </div>
     <!-- include footer -->

@@ -90,8 +90,9 @@
                                     <td><%= data[i].location %></td>
                                     <td><%= data[i].house_number %></td>   
                                     <td>
-                                        <a href="#" class="btn btn-success">Edit</a>
-                                        <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-userid="<%= data[i].user_id %>">Delete</a>
+                                        <a href="javascript:void(0);" class="btn btn-success myeditbutton" data-toggle="modal" data-target="#myEditModal" data-userid="<%= data[i].user_id %>" \
+                                                data-username="<%= data[i].user_name %>" data-email="<%= data[i].email %>" data-location="<%= data[i].location %>" data-houseno="<%= data[i].house_number %>">Edit</a>
+                                        <a href="javascript:void(0);"  data-toggle="modal" data-target="#myDeleteModal" class="btn btn-sm btn-danger mydeletebutton" data-userid="<%= data[i].user_id %>">Delete</a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -197,5 +198,61 @@
                     </div>
                 </div>
             </div>
+            <!-- Delete Product Modal-->
+ 	  <form action="/delete" method="post">
+        <div class="modal fade" id="myDeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+           <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Delete Home</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  </div>
+                  <div class="modal-body">
+                       <strong>Are You Sure To Delete This Data?</strong>
+                  </div>
+                  <div class="modal-footer">
+                        <input  type="hidden" name="userid" class="form-control userid" required>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Delete</button>
+                  </div>
+                     </div>
+           </div>
+        </div>
+    </form>
+    <!-- Edit homeModal-->
+   <form action="/update" method="post">
+    <div class="modal fade" id="myEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog" role="document">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="exampleModalLabel">Edit Home</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+           </button>
+         </div>
+         <div class="modal-body">
+           <div class="form-group">
+               <input type="text" name="username" class="form-control username" placeholder="username" required>
+           </div>
+
+           <div class="form-group">
+               <input type="text" name="email" class="form-control email" placeholder="email" required>
+           </div>
+           <div class="form-group">
+                <input type="text" name="location" class="form-control location" placeholder="location" required>
+            </div>
+            <div class="form-group">
+                    <input type="text" name="houseno" class="form-control houseno" placeholder="houseno" required>
+                </div>
+         </div>
+         <div class="modal-footer">
+           <input type="hidden" name="userid" class="product_id">
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+           <button type="submit" class="btn btn-primary">Update</button>
+         </div>
+       </div>
+     </div>
+    </div>
+</form>
 <!-- include footer -->
 <% include partials/footer.ejs %>

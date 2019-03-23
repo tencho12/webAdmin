@@ -10,16 +10,68 @@
          <!-- Right Panel -->
     <div id="right-panel" class="right-panel">
             <div class="breadcrumbs">
-                    <div class="col-sm-4">
-                        <div class="page-header float-left">
-                            <div class="page-title">
-                                <h1>Profile</h1>
+                <div class="col-sm-4">
+                    <div class="page-header float-left">
+                        <div class="page-title">
+                            <h1>Profile</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                        <!-- Trigger the modal with a button -->
+                    <br><button class="btn btn-primary"  data-toggle="modal" data-target="#myModal">Add New Component</button><br><br>
+                </div>
+            </div>
+            <div>
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+                                <h4 class="modal-title" style="text-align: center">Add New Component</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form action="<% stuff.url %>" method="post">
+                                    <div class="form-group">
+                                        <label for="component_name">Component Name</label>
+                                        <input type="text" id="component_name" name="component_name" class="form-control" placeholder="Eg: Tube Light" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="used_for">Used For</label>
+                                        <select class="form-control" id="purpose" name="purpose">
+                                            <option>Lighting</option>
+                                            <option>Heater</option>
+                                            <option>Fan/AC</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="output_pin">Output Pin</label>
+                                        <select class="form-control" id="output_pin" name="output_pin">
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                            <option>6</option>
+                                            <option>7</option>
+                                        </select>
+                                    </div>                              
+                                    <div class="modal-footer">
+                                        <button class="btn btn-primary" type="submit">Submit</button> 
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-8">
-                    </div>
                 </div>
+            </div>
+            <!-- End of model -->
             <div class="row">
                 <div class="col-sm-12">
                         <table class="table table-bordered">

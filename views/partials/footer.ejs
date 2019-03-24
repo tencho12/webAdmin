@@ -41,36 +41,75 @@
         })(jQuery);
     </script>
     <script>
-            $(document).ready(function(){
-                    //showing data to modal for edit record
-              $('.myeditbutton').on('click',function(){
-                var userid = $(this).data('userid');
-                var username = $(this).data('username');
+        $(document).ready(function(){
+            //showing data to modal for edit user record
+            $('.myeditbutton').on('click',function(){
+                var userid = $(this).data('user_id');
+                var username = $(this).data('user_name');
                 var email = $(this).data('email');
                 var location = $(this).data('location');
-                var houseno = $(this).data('houseno');
-                $('.userid').val(userid);
-                $('.username').val(username);
+                var houseno = $(this).data('house_number');
+                $('.user_id').val(userid);
+                $('.user_name').val(username);
                 $('.email').val(email);
                 $('.location').val(location);
-                $('.houseno').val(houseno);
+                $('.house_number').val(houseno);
+            });
 
-              });
+            //showing data to modal for edit room record
+            $('.myeditbutton1').on('click',function(){
+                var hid = $(this).data('hid');
+                var rname = $(this).data('room_name');
+                var rid = $(this).data('room_id');
+                $('.hid').val(hid);
+                $('.room_name').val(rname);
+                $('.room_id').val(rid);
+            });
+
+            //showing data to modal for edit room record
+            $('.myeditbutton2').on('click',function(){
+                var cid = $(this).data('cid');
+                var cname = $(this).data('component_name');
+                var use = $(this).data('used_for');
+                var pin = $(this).data('output_pin');
+                var rid = $(this).data('room_id');
+                $('.cid').val(cid);
+                $('.component_name').val(cname);
+                $('.output_pin').val(pin);
+                $('.used_for').val(use);
+                $('.room_id').val(rid);
+            });
                 
-            //showing modal for delete record
-                $('.mydeletebutton').on('click',function(){
+            //showing modal for delete user record
+            $('.mydeletebutton').on('click',function(){
                 var userid = $(this).data('userid');
                 $('.userid').val(userid);
-              });
+            });
+
+            //showing modal for delete room record
+            $('.mydeletebutton1').on('click',function(){
+                var rid = $(this).data('rid');
+                var hid = $(this).data('hid');
+                $('.rid').val(rid);
+                $('.hid').val(hid);
+            });
+
+            //showing modal for delete component record
+            $('.mydeletebutton2').on('click',function(){
+                var cid = $(this).data('cid');
+                var rid = $(this).data('rid');
+                $('.rid').val(rid);
+                $('.cid').val(cid);
+            });
         
             });
             $("#myclick").click(function(){
-            $(this).hide();
+                $(this).hide();
             });
             $("#myshow").click(function(){
                 $('#DeleteModal').show();
-            })
-        </script>
+        });
+    </script>
 
 </body>
 

@@ -53,12 +53,10 @@
                                     <div class="form-group">
                                         <label for="output_pin">Output Pin</label>
                                         <select class="form-control" id="output_pin" name="output_pin">
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                            <option>6</option>
-                                            <option>7</option>
+                                            <% var c=0; %>
+                                            <% for(var i=2; i < 14; i++) { if(c < data.length){ if(i==data[c].output_pin){ c++; continue;}} %>
+                                                <option> <%= i %> </option>
+                                            <% } %>
                                         </select>
                                     </div>                              
                                     <div class="modal-footer">
@@ -74,38 +72,100 @@
             <!-- End of model -->
             <div class="row">
                 <div class="col-sm-12">
-                        <table class="table table-bordered">
-                                <thead class="thead-dark">
-                                  <tr>
-                                    <th scope="col">Sl No</th>
-                                    <th scope="col">Component Name</th>
-                                    <th scope="col">Used For</th>
-                                    <th scope="col">Output Pin</th>
-                                    <th scope="col" >Action</th>
-                                  </tr>
-                                </thead>
-                                <% var c=0; for(var i=0; i < data.length; i++) { c++; %>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row"><%= c %></th>
-                                        <td>
-                                            <%= data[i].component_name %>
-                                        </td> 
-                                        <td>
-                                            <%= data[i].used_for %>
-                                        </td> 
-                                        <td>
-                                            <%= data[i].output_pin %>
-                                        </td> 
-                                        <td>
-                                            <a href="#" class="btn btn-success">Edit</a>
-                                            <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-userid="<%= data[i].user_id %>">Delete</a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                <% } %>
-                              </table>
+                    <table class="table table-bordered">
+                        <thead class="thead-dark">
+                            <tr>
+                            <th scope="col">Sl No</th>
+                            <th scope="col">Component Name</th>
+                            <th scope="col">Used For</th>
+                            <th scope="col">Output Pin</th>
+                            <th scope="col" >Action</th>
+                            </tr>
+                        </thead>
+                        <% var c=0; for(var i=0; i < data.length; i++) { c++; %>
+                        <tbody>
+                            <tr>
+                                <th scope="row"><%= c %></th>
+                                <td>
+                                    <%= data[i].component_name %>
+                                </td> 
+                                <td>
+                                    <%= data[i].used_for %>
+                                </td> 
+                                <td>
+                                    <%= data[i].output_pin %>
+                                </td> 
+                                <td>
+                                    <a href="javascript:void(0);" class="btn btn-success myeditbutton2" data-toggle="modal" data-target="#myEditModal" data-cid="<%= data[i].component_id %>" \
+                                    data-component_name="<%= data[i].component_name %>" data-used_for="<%= data[i].used_for %>" data-output_pin="<%= data[i].output_pin %>" data-room_id="<%= data[i].room_id %>">Edit</a>
+                                    <a href="javascript:void(0);"  data-toggle="modal" data-target="#myDeleteModal" class="btn btn-sm btn-danger mydeletebutton2" \
+                                    data-rid="<%= data[i].room_id %>" data-cid="<%= data[i].component_id %>">Delete<%= data[i].room_id %></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    <% } %>
+                    </table>
                 </div>
             </div>
+        <!-- Delete Product Modal-->
+        <form action="/deleteCom" method="post">
+            <div class="modal fade" id="myDeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="myModalLabel">Delete Component</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <strong>Are You Sure to Delete this Data?</strong>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="hidden" name="rid" class="form-control rid" required>
+                            <input  type="hidden" name="cid" class="form-control cid" required>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-success">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- Edit Component Modal-->
+        <form action="/updateCom" method="post">
+            <div class="modal fade" id="myEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Edit Component</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="component_name">Component Name</label>
+                                <input type="text" name="component_name" class="form-control component_name" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="used_for">Used For</label>
+                                <input type="text" name="used_for" class="form-control used_for" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="output_pin">Output Pin</label>
+                                <input type="text" name="output_pin" class="form-control output_pin" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="hidden" name="room_id" class="room_id">
+                            <input type="hidden" name="cid" class="cid">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
     <!-- include footer -->
 <% include partials/footer.ejs %>

@@ -9,77 +9,130 @@
 
          <!-- Right Panel -->
     <div id="right-panel" class="right-panel">
-            <div class="breadcrumbs">
-                <div class="col-sm-4">
-                    <div class="page-header float-left">
-                        <div class="page-title">
-                            <h1>Profile</h1>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-8">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-4">
-                    <!-- Trigger the modal with a button -->
-                    <br><button class="btn btn-primary"  data-toggle="modal" data-target="#myModal">Add New Room</button><br><br>
-                </div>
-            </div>
-            <div>
-                <!-- Modal -->
-                <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
-                    <div class="modal-dialog">
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
-                                <h4 class="modal-title" style="text-align: center">Add New Room</h4>
-                            </div>
-                            <div class="modal-body">
-                                <form action="<% stuff.url %>" method="post">
-                                    <div class="form-group">
-                                        <label for="username">Room Name</label>
-                                        <input type="text" id="roomname" name="roomname" class="form-control" placeholder="Eg: Kitchen" required>
-                                    </div>
-                                                                        
-                                    <div class="modal-footer">
-                                        <button class="btn btn-primary" type="submit">Submit</button> 
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+        <div class="breadcrumbs">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Profile</h1>
                     </div>
                 </div>
             </div>
-            <!-- End of model -->
-            <div class="row">
-                <div class="col-sm-12">
-                    <table class="table table-bordered">
-                        <thead class="thead-dark">
-                            <tr>
-                            <th scope="col">Sl No</th>
-                            <th scope="col">Room Name</th>
-                            <th scope="col" >Action</th>
-                            </tr>
-                        </thead>
-                        <% var c=0; for(var i=0; i < data.length; i++) { c++; %>
-                        <tbody>
-                            <tr>
-                                <th scope="row"><%= c %></th>
-                                <td>
-                                    <a href="profile_room?room_id=<%= data[i].room_id %>"><%= data[i].room_name %></a>
-                                </td> 
-                                <td>
-                                    <a href="#" class="btn btn-success">Edit</a>
-                                    <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-userid="<%= data[i].user_id %>">Delete</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                        <% } %>
-                    </table>
+            <div class="col-sm-8">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <!-- Trigger the modal with a button -->
+                <br><button class="btn btn-primary"  data-toggle="modal" data-target="#myModal">Add New Room</button><br><br>
+            </div>
+        </div>
+        <div>
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+                            <h4 class="modal-title" style="text-align: center">Add New Room</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form action="<% stuff.url %>" method="post">
+                                <div class="form-group">
+                                    <label for="roomname">Room Name</label>
+                                    <input type="text" id="roomname" name="roomname" class="form-control" placeholder="Eg: Kitchen" required>
+                                </div>
+                                                                    
+                                <div class="modal-footer">
+                                    <button class="btn btn-primary" type="submit">Submit</button> 
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
+        <!-- End of model -->
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                        <th scope="col">Sl No</th>
+                        <th scope="col">Room Name</th>
+                        <th scope="col" >Action</th>
+                        </tr>
+                    </thead>
+                    <% var c=0; for(var i=0; i < data.length; i++) { c++; %>
+                    <tbody>
+                        <tr>
+                            <th scope="row"><%= c %></th>
+                            <td>
+                                <a href="profile_room?room_id=<%= data[i].room_id %>"><%= data[i].room_name %></a>
+                            </td> 
+                            <td>
+                                <a href="javascript:void(0);" class="btn btn-success myeditbutton1" data-toggle="modal" data-target="#myEditModal" \
+                                data-room_id="<%= data[i].room_id %>" data-room_name="<%= data[i].room_name %>" data-hid="<%= data[i].house_number %>">Edit</a>
+                                <a href="javascript:void(0);"  data-toggle="modal" data-target="#myDeleteModal" class="btn btn-sm btn-danger mydeletebutton1" \
+                                data-rid="<%= data[i].room_id %>" data-hid="<%= data[i].house_number %>">Delete<%= data[i].room_id %></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <% } %>
+                </table>
+            </div>
+        </div>
+        <!-- Delete room Modal-->
+        <form action="/deleteRoom" method="post">
+            <div class="modal fade" id="myDeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="myModalLabel">Delete Room</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <strong>Are You Sure to Delete this Data?</strong>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="hidden" name="rid" class="form-control rid" required>
+                            <input  type="hidden" name="hid" class="form-control hid" required>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-success">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- Edit room Modal-->
+        <form action="/updateRoom" method="post">
+            <div class="modal fade" id="myEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Edit Room</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="room_name">Room Name</label>
+                                <input type="text" id="room_name" name="room_name" class="form-control room_name" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="hidden" name="room_id" class="room_id">
+                            <input type="hidden" name="hid" class="hid">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
     <!-- include footer -->
 <% include partials/footer.ejs %>

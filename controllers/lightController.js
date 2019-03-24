@@ -27,6 +27,29 @@ module.exports= function(app,mysqlConnection){
         });
     });    
 
+    // Login controller
+    app.post('/login',urlencodedParser,function(req,res){ 
+        mysqlConnection.query("SELECT * FROM user_tb WHERE email='"+req.body.email+"' AND password='"+req.body.password+"'",(err, rows, fields)=>{
+            if(!err){
+                 if(rows.length){
+                    app.get('/home',function(req,res){
+                        mysqlConnection.query('SELECT * FROM user_tb ORDER BY user_name',(err, rows, fields)=>{
+                            if(!err){
+                                res.render('home',{data: rows});
+                            }     
+                            else
+                            console.log(err);
+                        });
+                    });
+                 }
+                 else
+                res.redirect('index');
+            }     
+            else
+            console.log(err);
+        });
+    });
+
     // Adds the new user
     app.post('/home',urlencodedParser,function(req,res){ 
         // Generates Password 

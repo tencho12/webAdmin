@@ -250,8 +250,7 @@ module.exports= function(app,mysqlConnection){
     });
 
     //Update Component
-    app.post('/updateCom',urlencodedParser,(req, res)=>{
-        
+    app.post('/updateCom',urlencodedParser,(req, res)=>{       
         let sql = "UPDATE status_tb SET component_name= ?, used_for= ?, output_pin= ? WHERE component_id = ?";
         let values = [req.body.component_name, req.body.used_for, req.body.output_pin, req.body.cid];
         mysqlConnection.query(sql, values,(error, results, fields) => {
@@ -262,5 +261,152 @@ module.exports= function(app,mysqlConnection){
                 res.redirect(url);
             } 
         });
+    });
+    app.get('/readPin/',function(req,res){        
+        if(req.query.room_id){
+            var result={};
+            mysqlConnection.query("SELECT * FROM room_tb",(err, rows, fields)=>{
+                if(err){
+                    console.log(err);
+                }else{ 
+                    for(var i in rows)
+                        result['automated']=rows[i].automated;
+                }
+            });
+            mysqlConnection.query("SELECT * FROM constant_tb",(err, rows, fields)=>{
+                if(err){
+                    console.log(err);
+                }else{
+                    for(var i in rows){
+                        if(rows[i].constant=="fanOn")
+                            result['fanOn']=rows[i].value;
+                        else if(rows[i].constant=="fanOff")
+                            result['fanOff']=rows[i].value;
+                        else if(rows[i].constant=="heaterOn")
+                            result['heaterOn']=rows[i].value;
+                        else if(rows[i].constant=="heaterOff")
+                            result['heaterOff']=rows[i].value;
+                        else if(rows[i].constant=="lightOn")
+                            result['lightOn']=rows[i].value;
+                        else if(rows[i].constant=="lightOff")
+                            result['lightOff']=rows[i].value;
+                    }
+                }                    
+            });
+            var status=[]; 
+            mysqlConnection.query("SELECT * FROM status_tb WHERE room_id=?",req.query.room_id,(err, rows, fields)=>{
+                if(err){
+                    console.log(err);
+                }else{
+                    for(var i in rows){
+                        var cart={};
+                        cart['used_for']=rows[i].used_for;
+                        cart['output_pin']=rows[i].output_pin;
+                        status.push(cart);
+                    }
+                    var c=status.length;
+                    result['status']=status;
+                    result['success']=c;
+                    res.send(result);
+                }
+            });
+        }else {
+            res.status(404).end('error 404 Page NoT Found');
+        }
+     });
+
+    app.get('/readStatus/:room_id?',function(req,res){        
+        if(req.query.room_id){
+            var result={};
+            mysqlConnection.query("SELECT * FROM room_tb WHERE room_id=?",req.query.room_id,(err, rows, fields)=>{
+                if(err){
+                    console.log(err);
+                }else{ 
+                    for(var i in rows)
+                        result['automated']=rows[i].automated;
+                }
+            });
+            mysqlConnection.query("SELECT * FROM constant_tb",(err, rows, fields)=>{
+                if(err){
+                    console.log(err);
+                }else{
+                    for(var i in rows){
+                        if(rows[i].constant=="fanOn")
+                            result['fanOn']=rows[i].value;
+                        else if(rows[i].constant=="fanOff")
+                            result['fanOff']=rows[i].value;
+                        else if(rows[i].constant=="heaterOn")
+                            result['heaterOn']=rows[i].value;
+                        else if(rows[i].constant=="heaterOff")
+                            result['heaterOff']=rows[i].value;
+                        else if(rows[i].constant=="lightOn")
+                            result['lightOn']=rows[i].value;
+                        else if(rows[i].constant=="lightOff")
+                            result['lightOff']=rows[i].value;
+                    }
+                }                    
+            });
+            var status=[]; 
+            mysqlConnection.query("SELECT * FROM status_tb WHERE room_id=?",req.query.room_id,(err, rows, fields)=>{
+                if(err){
+                    console.log(err);
+                }else{
+                    for(var i in rows){
+                        var cart={};
+                        cart['used_for']=rows[i].used_for;
+                        cart['output_pin']=rows[i].output_pin;
+                        cart['on_off']=rows[i].status;
+                        status.push(cart);
+                    }
+                    var c=status.length;
+                    result['status']=status;
+                    result['success']=c;
+                    res.send(result);
+                }
+            });
+
+        }else {
+            res.status(404).end('error 404 Page NoT Found');
+        }
+    });
+
+    app.get('/updateStatus/',function(req,res){        
+        if(req.query.room_id ){
+
+            if(req.query.status){
+                var result={};
+                for(var i =0; i<req.query.status.length; ){
+                    let sql = "UPDATE status_tb SET status= ? WHERE room_id = ? AND output_pin= ?";
+                    let values = [req.query.status.substring(i+2, i+3), req.query.room_id, req.query.status.substring(i, i+2)];
+                    mysqlConnection.query(sql, values,(error, results, fields) => {
+                      if (error){
+                        return console.log(error.message);
+                      } 
+                    });
+                    i+=3;
+                }
+            }
+
+            if(req.query.temp && req.query.light){
+                let sql = "UPDATE sensor_tb SET value= ? WHERE room_id = ? AND sensor_type ='temperature'";
+                let values = [req.query.temp, req.query.room_id];
+                mysqlConnection.query(sql, values,(error, results, fields) => {
+                  if (error){
+                    return console.log(error.message);
+                  } 
+                });
+                sql = "UPDATE sensor_tb SET value= ? WHERE room_id = ? AND sensor_type='light'"
+                values = [req.query.light, req.query.room_id];
+                mysqlConnection.query(sql, values,(error, results, fields) => {
+                  if (error){
+                    return console.log(error.message);
+                  } 
+                });
+            }
+            res.status(400).end('Updated the Tables Successfully');
+
+        }else {
+            res.status(404).end('error 404 Page NoT Found');
+        }
     });
 };

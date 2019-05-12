@@ -336,7 +336,8 @@ module.exports= function(app,mysqlConnection){
                     console.log(err);
                 }else{ 
                     for(var i in rows)
-                        result['automated']=rows[i].automated;
+                        result['a']=rows[i].automated;
+                        result['p']=rows[i].human_presence;
                 }
             });
             mysqlConnection.query("SELECT * FROM constant_tb",(err, rows, fields)=>{
@@ -345,17 +346,17 @@ module.exports= function(app,mysqlConnection){
                 }else{
                     for(var i in rows){
                         if(rows[i].constant=="fanOn")
-                            result['fanOn']=rows[i].value;
+                            result['fo']=rows[i].value;
                         else if(rows[i].constant=="fanOff")
-                            result['fanOff']=rows[i].value;
+                            result['ff']=rows[i].value;
                         else if(rows[i].constant=="heaterOn")
-                            result['heaterOn']=rows[i].value;
+                            result['ho']=rows[i].value;
                         else if(rows[i].constant=="heaterOff")
-                            result['heaterOff']=rows[i].value;
+                            result['hf']=rows[i].value;
                         else if(rows[i].constant=="lightOn")
-                            result['lightOn']=rows[i].value;
+                            result['lo']=rows[i].value;
                         else if(rows[i].constant=="lightOff")
-                            result['lightOff']=rows[i].value;
+                            result['lf']=rows[i].value;
                     }
                 }                    
             });
@@ -366,9 +367,9 @@ module.exports= function(app,mysqlConnection){
                 }else{
                     for(var i in rows){
                         var cart={};
-                        cart['used_for']=rows[i].used_for;
-                        cart['output_pin']=rows[i].output_pin;
-                        cart['on_off']=rows[i].status;
+                        cart['for']=rows[i].used_for;
+                        cart['pin']=rows[i].output_pin;
+                        cart['of']=rows[i].status;
                         status.push(cart);
                     }
                     var c=status.length;
@@ -422,4 +423,30 @@ module.exports= function(app,mysqlConnection){
             res.status(404).end('error 404 Page NoT Found');
         }
     });
+
+
+    app.get('/getPin/',function(req,res){        
+        if(req.query.room_id){
+            var result={};
+            var status=[]; 
+            mysqlConnection.query("SELECT * FROM status_tb WHERE room_id=?",req.query.room_id,(err, rows, fields)=>{
+                if(err){
+                    console.log(err);
+                }else{
+                    for(var i in rows){
+                        var cart={};
+                        cart['pin']=rows[i].output_pin;
+                        cart['of']=rows[i].status;
+                        status.push(cart);
+                    }
+                    var c=status.length;
+                    result['status']=status;
+                    result['success']=c;
+                    res.send(result);
+                }
+            });
+        }else {
+            res.status(404).end('error 404 Page NoT Found');
+        }
+     });
 };

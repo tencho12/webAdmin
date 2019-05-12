@@ -29,18 +29,11 @@ module.exports= function(app,mysqlConnection){
 
     // Login controller
     app.post('/login',urlencodedParser,function(req,res){ 
-        mysqlConnection.query("SELECT * FROM user_tb WHERE email='"+req.body.email+"' AND password='"+req.body.password+"'",(err, rows, fields)=>{
+        mysqlConnection.query("SELECT * FROM admin_tb WHERE email='"+req.body.email+"' AND password='"+req.body.password+"'",(err, rows, fields)=>{
             if(!err){
                  if(rows.length){
-                    app.get('/home',function(req,res){
-                        mysqlConnection.query('SELECT * FROM user_tb ORDER BY user_name',(err, rows, fields)=>{
-                            if(!err){
-                                res.render('home',{data: rows});
-                            }     
-                            else
-                            console.log(err);
-                        });
-                    });
+                    // Displays all the users
+                    res.redirect('/home'); 
                  }
                  else
                 res.redirect('index');
@@ -53,26 +46,23 @@ module.exports= function(app,mysqlConnection){
     // Adds the new user
     app.post('/home',urlencodedParser,function(req,res){ 
         // Generates Password 
-        var password = generator.generate({
-            length: 10,
-            numbers: true
-        });
-        var transporter = nodemailer.createTransport({
-            host: 'smtp.zoho.com',
-            port: 465,
-            secure: true,
-            auth: {
-              user: 'finalyearit2019@gmail.com',
-              pass: 'Final@2019'
-            }
-        });
+        
+        // var transporter = nodemailer.createTransport({
+        //     host: 'smtp.zoho.com',
+        //     port: 465,
+        //     secure: true,
+        //     auth: {
+        //       user: 'finalyearit2019@gmail.com',
+        //       pass: 'Final@2019'
+        //     }
+        // });
           
-        var mailOptions = {
-            from: 'finalyearit2019@gmail.com',
-            to: req.body.email,
-            subject: 'Registration for Automated Home',
-            text: 'Thank You \nYour password is '+password+'.'
-        };
+        // var mailOptions = {
+        //     from: 'finalyearit2019@gmail.com',
+        //     to: req.body.email,
+        //     subject: 'Registration for Automated Home',
+        //     text: 'Thank You \nYour password is '+password+'.'
+        // };
         
         mysqlConnection.query("INSERT INTO user_tb (user_name,email,password,location,house_number) VALUES ('"+req.body.username+"','"+req.body.email+"','"+password+"','"+req.body.location+"','"+req.body.house_number+"')",(err, rows, fields)=>{
             if(!err){

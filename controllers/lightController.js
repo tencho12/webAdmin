@@ -170,7 +170,7 @@ module.exports= function(app,mysqlConnection){
     // Add rooms to a particular house
     app.post('/profile_home',urlencodedParser,function(req,res){
         if(req.query.h_id){
-            mysqlConnection.query("INSERT INTO room_tb (room_name,automated,house_number) VALUES ('"+req.body.roomname+"','0','"+req.query.h_id+"')",(err, rows, fields)=>{
+            mysqlConnection.query("INSERT INTO room_tb (room_name,automated,human_presence,house_number) VALUES ('"+req.body.roomname+"','0','0','"+req.query.h_id+"')",(err, rows, fields)=>{
                 if(!err){
                     res.redirect(req.originalUrl);
                 }     

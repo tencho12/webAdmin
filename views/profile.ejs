@@ -22,63 +22,100 @@
                 <div class="row">
                         <!-- Column -->
                         <div class="col-lg-4 col-xlg-3 col-md-5">
+                            <%  for(var i=0; i < data.length; i++) {  %>
                             <div class="card">
                                 <div class="card-body">
                                     <center class="m-t-30"> <img src="bower_components/images/avatar/4.jpg" class="rounded-circle" width="150" />
-                                        <h4 class="card-title m-t-10">Tenzin chophel</h4>
-                                        <h6 class="card-subtitle">Student at CST</h6>
+                                        <h4 class="card-title m-t-10"><%= data[i].name %></h4>
+                                        <h6 class="card-subtitle">Admin</h6>
                                     </center>
                                 </div>
                                 <div>
                                     <hr> </div>
                                 <div class="card-body"> <small class="text-muted">Email address </small>
-                                    <h6>tencho@gmail.com</h6> <small class="text-muted p-t-30 db">Phone</small>
-                                    <h6>+91 654 784 547</h6> <small class="text-muted p-t-30 db">Address</small>
-                                    <h6>Bhutan, Paro, Drukgyel</h6>
+                                    <h6><%= data[i].email %></h6> <small class="text-muted p-t-30 db">Phone</small>
+                                    <h6><%= data[i].phone_no %></h6> <small class="text-muted p-t-30 db">Address</small>
                                     <br/>
                                     <button class="btn btn-circle btn-secondary"><i class="mdi mdi-facebook"></i></button>
                                     <button class="btn btn-circle btn-secondary"><i class="mdi mdi-twitter"></i></button>
                                     <button class="btn btn-circle btn-secondary"><i class="mdi mdi-youtube-play"></i></button>
+                                    <% } %>
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add Admin</button>
                                 </div>
                             </div>
                         </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+                                        <h4 class="modal-title" style="text-align: center">Add Admin</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="/addAdmin" method="POST">
+                                            <div class="form-group">
+                                                <label for="username">Name</label>
+                                                <input type="text" id="name" name="name" class="form-control"
+                                                    placeholder="Eg: tenzin chophel" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="example-email">Email</label>
+                                                <input type="email" id="email" name="email" class="form-control"
+                                                    placeholder="Eg: example123@gmail.com" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="location">Phone Number</label>
+                                                <input type="text" id="phone_no" name="phone_no" class="form-control"
+                                                    placeholder="Eg: 17452423" required>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-primary" type="submit">Submit</button>
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- model end -->
                         <!-- Column -->
                         <!-- Column -->
                         <div class="col-lg-8 col-xlg-9 col-md-7">
                             <div class="card">
                                 <div class="card-body">
-                                    <form class="form-horizontal form-material">
+                                    <%  for(var i=0; i < data.length; i++) {  %>
+                                    <form class="form-horizontal form-material" method="POST" action='/profile'>
                                         <div class="form-group">
-                                            <label class="col-md-12">Username or Email</label>
+                                            <label for="example-name" class="col-md-12">Name</label>
                                             <div class="col-md-12">
-                                                <input type="text" placeholder="tencho" class="form-control form-control-line">
+                                                <input type="name" value="<%= data[i].name %>" class="form-control form-control-line"
+                                                    name="name" >
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="example-email" class="col-md-12">Email</label>
                                             <div class="col-md-12">
-                                                <input type="email" placeholder="tencho@admin.com" class="form-control form-control-line" name="example-email" id="example-email">
+                                                <input type="email" name="email" value="<%= data[i].email %>" class="form-control form-control-line" name="example-email" id="example-email">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-md-12">Password</label>
+                                            <label class="col-md-12">New Password</label>
                                             <div class="col-md-12">
-                                                <input type="password" value="password" class="form-control form-control-line">
+                                                <input type="password" name="password" placeholder="password" class="form-control form-control-line">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-md-12">Phone No</label>
                                             <div class="col-md-12">
-                                                <input type="text" placeholder="123 456 7890" class="form-control form-control-line">
+                                                <input type="text" name="phone_no" value="<%= data[i].phone_no %>" class="form-control form-control-line">
                                             </div>
                                         </div>
+                                        <% } %>
                                         <div class="form-group">
-                                            <label class="col-md-12">House Number</label>
-                                            <input type="text" placeholder="123 456 7890" class="form-control form-control-line">
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-sm-12">
-                                                <button class="btn btn-success">Update Profile</button>
+                                            <div class="col-sm-12"><br>
+                                                <button class="btn btn-success" type="submit">Update Profile</button>
                                             </div>
                                         </div>
                                     </form>

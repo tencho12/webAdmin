@@ -2,7 +2,10 @@
 var bodyParser= require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var generator = require('generate-password');
-var nodemailer = require('nodemailer');
+const bcrypt = require('bcrypt')
+const nodemailer = require("nodemailer");
+const NodeCache = require("node-cache");
+const myCache = new NodeCache();
 
 module.exports= function(app,mysqlConnection){
 
@@ -17,7 +20,8 @@ module.exports= function(app,mysqlConnection){
     });
 
     // Displays all the users
-    app.get('/home',function(req,res){
+    app.get('/home', function (req, res) {
+        
         mysqlConnection.query('SELECT * FROM user_tb ORDER BY user_name',(err, rows, fields)=>{
             if(!err){
                 res.render('home',{data: rows});
@@ -30,60 +34,85 @@ module.exports= function(app,mysqlConnection){
     // Login controller
     app.post('/login',urlencodedParser,function(req,res){ 
         mysqlConnection.query("SELECT * FROM admin_tb WHERE email='"+req.body.email+"' AND password='"+req.body.password+"'",(err, rows, fields)=>{
-            if(!err){
-                 if(rows.length){
-                    // Displays all the users
-                    res.redirect('/home'); 
-                 }
-                 else
-                res.redirect('index');
-            }     
-            else
-            console.log(err);
+                if (rows.length>0) {
+                    userProfil = { email: req.body.email, };
+                    myCache.set("myKey", userProfil, function (err, success) {
+                        if (!err && success) {
+                        }
+                    });
+                     res.redirect('/home');
+                }
+                else
+                    res.send(err)
         });
     });
 
     // Adds the new user
     app.post('/home',urlencodedParser,function(req,res){ 
-        // Generates Password 
         
-        // var transporter = nodemailer.createTransport({
-        //     host: 'smtp.zoho.com',
-        //     port: 465,
-        //     secure: true,
-        //     auth: {
-        //       user: 'finalyearit2019@gmail.com',
-        //       pass: 'Final@2019'
-        //     }
-        // });
-          
-        // var mailOptions = {
-        //     from: 'finalyearit2019@gmail.com',
-        //     to: req.body.email,
-        //     subject: 'Registration for Automated Home',
-        //     text: 'Thank You \nYour password is '+password+'.'
-        // };
-        
-        mysqlConnection.query("INSERT INTO user_tb (user_name,email,password,location,house_number) VALUES ('"+req.body.username+"','"+req.body.email+"','"+password+"','"+req.body.location+"','"+req.body.house_number+"')",(err, rows, fields)=>{
-            if(!err){
-                transporter.sendMail(mailOptions, function(error, info){
-                    if (error) {
-                      console.log(error);
-                    } else {
-                      console.log('Email sent: ' + info.response);
-                    }
-                });
-                res.redirect(req.originalUrl);
-            }     
-            else
-                console.log(err);
+        var password = generator.generateMultiple(3, {
+            length: 10,
+            uppercase: false
         });
-    });
 
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'tenzinchophel944@gmail.com',
+                pass: 'friendship74'
+            }
+        });
+        const mailOptions = {
+            from: 'tenzinchophel944@gmail.com', // sender address
+            to: req.body.email, // list of receivers
+            subject: 'your password', // Subject line
+            html: 'Your password is :'+password[1]// plain text body
+        };
+        
+        var sql = "SELECT * FROM user_tb WHERE user_name=? OR email=? OR house_number=?"; 
+        var val=[req.body.user_name,req.body.email,req.body.house_number]
+        mysqlConnection.query(sql, val, (err, rows, fields) => { 
+            if (rows) {
+                bcrypt.hash(password[1], 10, (err, hash) => {
+                    var sql = "INSERT INTO user_tb (user_name,email,password,location,house_number) VALUES ('" + req.body.user_name + "','" + req.body.email + "','" + hash + "','" + req.body.location + "','" + req.body.house_number + "')";
+                    mysqlConnection.query(sql, (err, rows, fields) => {
+                        if (rows) {
+                            transporter.sendMail(mailOptions, function (err, info) {
+                                if (err)
+                                    res.send('Err' + err)
+                                else
+                                    res.redirect(req.originalUrl);
+                            });
+                        }
+                        else
+                            res.send(err.sqlMessage)
+                    });
+                });
+            } else {
+                res.send({err:'similar data already exist in database.'})
+            }
+            
+        })
+
+       
+        
+    });
+    
+    
     // List all users
-    app.get('/profile',function(req,res){
-        mysqlConnection.query('SELECT * FROM user_tb',(err, rows, fields)=>{
-            if(!err){
+    var email;
+    app.get('/profile', function (req, res) {
+        
+        myCache.get("myKey", function (err, value) {
+            if (!err) {
+                // console.log(value)
+                email = value.email;
+            }
+        });
+        var sql = "SELECT * FROM admin_tb WHERE email=?";
+        var value = email
+        mysqlConnection.query(sql, value, (err, rows, fields)=>{
+            if (rows.length>0) {
                 res.render('profile',{data: rows});
             }     
             else
@@ -91,11 +120,32 @@ module.exports= function(app,mysqlConnection){
         });
     });
 
+    app.post('/profile', function (req, res) {
+        var email;
+        myCache.get("myKey", function (err, value) {
+            if (!err) {
+                // console.log(value)
+                email = value.email;
+            }
+        });
+        
+            var sql = "UPDATE admin_tb SET name=?, email=?, password=?, phone_no=? WHERE email=?";
+            var values=[req.body.name, req.body.email, req.body.password, req.body.phone_no, email]
+            mysqlConnection.query(sql, values, (err, rows, fields) => {
+                if (rows.affectedRows==1) {
+                     res.render('index');
+                }
+                else
+                    console.log(err)
+            });
+    });
+
     // List all room of particular house
     app.get('/profile_home',function(req,res){
         if(req.query.h_id){
             mysqlConnection.query("SELECT * FROM room_tb WHERE house_number=? ORDER BY room_name",req.query.h_id,(err, rows, fields)=>{
-                if(!err){
+                
+                if (!err) {
                     res.render('profile_home',{data: rows, h_id : req.query.h_id});
                 }     
                 else{
@@ -103,6 +153,18 @@ module.exports= function(app,mysqlConnection){
                 }
             });
         }
+    });
+
+    // Add admin
+    app.post('/addAdmin', urlencodedParser, function (req, res) {
+        var password = 'pass';
+            mysqlConnection.query("INSERT INTO admin_tb (name,email,phone_no,password) VALUES ('" + req.body.name + "','" + req.body.email + "','" + req.body.phone_no + "','" + password +"')", (err, rows, fields) => {
+                if (!err) {
+                    res.redirect('/home');
+                }
+                else
+                    console.log(err);
+            });
     });
 
     // Add rooms to a particular house

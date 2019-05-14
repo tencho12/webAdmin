@@ -66,7 +66,7 @@ module.exports= function(app,mysqlConnection){
             from: 'tenzinchophel944@gmail.com', // sender address
             to: req.body.email, // list of receivers
             subject: 'your password', // Subject line
-            html: 'Your password is :'+password[1]// plain text body
+            html: '<b>Dear user</b>,<br> Thank you for using our service. Your current password is <i>'+password[1]+'</i>. You can always change from your profile page after you login.<br><br><br>Thank you.<br>'// plain text body
         };
         
         var sql = "SELECT * FROM user_tb WHERE user_name=? OR email=? OR house_number=?"; 

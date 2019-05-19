@@ -172,7 +172,19 @@ module.exports= function(app,mysqlConnection){
         if(req.query.h_id){
             mysqlConnection.query("INSERT INTO room_tb (room_name,automated,human_presence,house_number) VALUES ('"+req.body.roomname+"','0','0','"+req.query.h_id+"')",(err, rows, fields)=>{
                 if(!err){
-                    res.redirect(req.originalUrl);
+                    mysqlConnection.query("INSERT INTO sensor_tb (room_id,sensor_type,value) VALUES ('"+rows["insertId"]+"','temperature','0')",(err, rows1, fields)=>{
+                        if(!err){
+                            mysqlConnection.query("INSERT INTO sensor_tb (room_id,sensor_type,value) VALUES ('"+rows["insertId"]+"','light','0')",(err, rows, fields)=>{
+                                if(!err){
+                                    res.redirect(req.originalUrl);
+                                }     
+                                else
+                                    console.log(err);
+                            });
+                        }     
+                        else
+                            console.log(err);
+                    });
                 }     
                 else
                     console.log(err);
@@ -216,11 +228,16 @@ module.exports= function(app,mysqlConnection){
                         console.log(err);
                     }else{ 
                         for(var i in rows){
-                            mysqlConnection.query('DELETE FROM status_tb WHERE room_id='+rows[i].room_id, (err, rows, fields)=>{
+                            var room_id = rows[i].room_id;
+                            mysqlConnection.query('DELETE FROM status_tb WHERE room_id='+rows[i].room_id, (err, rows1, fields)=>{
                                 if(!err){
-                                    mysqlConnection.query("DELETE FROM room_tb WHERE house_number="+req.body.userid,(err, rows, fields)=>{
-                                        if(err){
-                                            console.log(err);
+                                    mysqlConnection.query("DELETE FROM room_tb WHERE house_number="+req.body.userid,(err, rows1, fields)=>{
+                                        if(!err){
+                                            mysqlConnection.query('DELETE FROM sensor_tb WHERE room_id='+room_id, (err, rows, fields)=>{
+                                                if(err){
+                                                    console.log(err);
+                                                }
+                                            });
                                         }
                                     });
                                 }
@@ -245,8 +262,15 @@ module.exports= function(app,mysqlConnection){
             if(!err){
                 mysqlConnection.query('DELETE FROM status_tb WHERE room_id='+req.body.rid, (err, rows, fields)=>{
                     if(!err){
-                        var url = '/profile_home?h_id='+req.body.hid;                       
-                        res.redirect(url);
+                        mysqlConnection.query('DELETE FROM sensor_tb WHERE room_id='+req.body.rid, (err, rows, fields)=>{
+                            if(!err){
+                                var url = '/profile_home?h_id='+req.body.hid;                       
+                                res.redirect(url);
+                            }
+                            else{
+                                console.log(err);
+                            }
+                        });
                     }
                     else{
                         console.log(err);

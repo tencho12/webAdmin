@@ -503,6 +503,15 @@ module.exports= function(app,mysqlConnection){
                   } 
                 });
             }
+            if(req.query.hum){
+                let sql = "UPDATE room_tb SET human_presence= ? WHERE room_id = ?";
+                let values = [req.query.hum, req.query.room_id];
+                mysqlConnection.query(sql, values,(error, results, fields) => {
+                  if (error){
+                    return console.log(error.message);
+                  } 
+                });
+            }
             res.status(400).end('Updated the Tables Successfully');
 
         }else {

@@ -206,6 +206,30 @@ module.exports= function(app,mysqlConnection){
         }
     });
 
+    //get feedback
+    app.get('/feedback', function (req, res) {
+            mysqlConnection.query("SELECT * FROM comment_tb", (err, rows, fields) => {
+                if (!err) {
+                    res.render('feedback', { data: rows });
+                }
+                else {
+                    console.log(err);
+                }
+            });
+    });
+
+    //remove feedback
+    app.post('/removefeedback', urlencodedParser,function (req, res) {
+        mysqlConnection.query('DELETE FROM comment_tb WHERE c_id ='+req.body.id, (err, rows, fields) => {
+            if (!err) {
+                res.render('home', { data: rows });
+            }
+            else {
+                console.log(err);
+            }
+        });
+    });
+
     // Add new components of a particular room
     app.post('/profile_room',urlencodedParser,function(req,res){
         if(req.query.room_id){

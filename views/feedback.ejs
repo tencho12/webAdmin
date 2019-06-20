@@ -1,0 +1,27 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<!-- header -->
+<% include partials/header.ejs %>
+<!-- Left Panel -->
+<% include partials/navbar.ejs %>
+<!-- Left Panel Finish here-->
+<% stuff = typeof stuff !== 'object' ? {} : stuff %>
+
+<div class="ml-3">
+    <h3 class="mt-3 mb-2">Feed back section:</h3>
+    <% for(var i=0; i < data.length; i++) {  %>
+    <div class="card mr-4">
+        <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted"><%= data[i].email %></h6>
+            <p class="card-text"><%= data[i].comment %></p>
+            <form action="/removefeedback" method="post">
+                <input type="hidden" name="id" value="<%= data[i].c_id %>"/>
+                <button class="btn btn-success btn-sm" type="submit">Done</button>                
+            </form>
+        </div>
+    </div>
+        <% } %>
+
+</div>
+<!-- include footer -->
+<% include partials/footer.ejs %>
